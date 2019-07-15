@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,17 +21,17 @@ namespace InlineEditApplication.Controllers
         {
             return new string[] { "inlineedit" };
         }
-        
+
         [HttpPost]
         public ActionResult<string> Post([FromBody] InlineEditRequest req)
         {
             FragInfo[] infoArray = req.Fraginfo;
             string origintmpFile = OperateContent.modifyMdfile(infoArray);
+            string modifiedPath = infoArray[0].Origin_url.Split(new String[] { @"master/" }, StringSplitOptions.None)[1];
             OperateGit.ForkRepo();
-            OperateGit.Commit(origintmpFile);
+            OperateGit.Commit(origintmpFile, modifiedPath);
             OperateGit.PullRequest();
-
-
+            
             return origintmpFile;
         }
     }

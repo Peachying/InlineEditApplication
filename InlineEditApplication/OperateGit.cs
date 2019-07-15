@@ -42,7 +42,7 @@ namespace InlineEditApplication
             Console.WriteLine(pr_res);
         }
 
-        public static void Commit(string originmdPath)
+        public static void Commit(string originmdPath, string modifiedPath)
         {
             Console.WriteLine("******************Six steps for Commit***************************");
             //get reference & tree to commit 
@@ -65,7 +65,7 @@ namespace InlineEditApplication
                 BaseTree = baseTree_sha,
                 Tree = new TreeNode[] {
                     new TreeNode{
-                        Path = @"node-azure-tools.md",
+                        Path = modifiedPath,
                         Mode = "100644",
                         Type = "blob",
                         Sha = blob_sha
@@ -101,7 +101,7 @@ namespace InlineEditApplication
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.Method = "POST";
             req.ContentType = "application/vnd.github.v3+json";
-            req.Headers.Add("Authorization", "token 02f2097cf9743507eeaa5b0b38d0e68959915465");
+            req.Headers.Add("Authorization", "token ");
             req.UserAgent = "Code Sample Web Client";
             using (var streamWriter = new StreamWriter(req.GetRequestStream()))
             {
@@ -140,7 +140,7 @@ namespace InlineEditApplication
 
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(builder.ToString());
             req.ContentType = "application/vnd.github.v3+json";
-            req.Headers.Add("Authorization", "token 02f2097cf9743507eeaa5b0b38d0e68959915465");
+            req.Headers.Add("Authorization", "token ");
             req.UserAgent = "Code Sample Web Client";
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
