@@ -14,7 +14,7 @@ namespace InlineEditApplication
         
     public class OperateContent
     {
-        private static string cmdPath = @"D:\home\"; //@"C:\Users\t-yucxu\Desktop\testInlineEdit\middlefile"; 
+        private static string cmdPath = @"C:\Users\t-yucxu\Desktop\testInlineEdit\middlefile"; //@"D:\home\"; 
         private static string processName = cmdPath + @"\pandoc.exe";
         private const string args = @"-t markdown -o ""{0}"" -f html  ""{1}""";
            

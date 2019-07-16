@@ -26,11 +26,15 @@ namespace InlineEditApplication.Controllers
         public ActionResult<string> Post([FromBody] InlineEditRequest req)
         {
             FragInfo[] infoArray = req.Fraginfo;
+            string repoUrl = infoArray[0].Origin_url.Split(new String[] { @"/blob" }, StringSplitOptions.None)[0];
+            int lastone = repoUrl.LastIndexOf(@"/");
+            string repoName = repoUrl.Substring(repoUrl.LastIndexOf(@"/") + 1, repoUrl.Length - repoUrl.LastIndexOf(@"/")-1);
+            repoUrl = repoUrl.Replace(@"github.com", @"api.github.com/repos");
             string origintmpFile = OperateContent.modifyMdfile(infoArray);
-            string modifiedPath = infoArray[0].Origin_url.Split(new String[] { @"master/" }, StringSplitOptions.None)[1];
-            OperateGit.ForkRepo();
-            OperateGit.Commit(origintmpFile, modifiedPath);
-            OperateGit.PullRequest();
+            string modifiedPath = infoArray[0].Origin_url.Split(new String[] { @"master/" }, StringSplitOptions.None)[1];//the full path of the modified fiel in the repo
+            OperateGit.ForkRepo(repoUrl);
+            OperateGit.Commit(origintmpFile, modifiedPath, repoName);
+            OperateGit.PullRequest(repoUrl);
             
             return origintmpFile;
         }
